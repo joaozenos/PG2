@@ -1,12 +1,23 @@
 #flake8:noqa
 
 import vector_utils
+	
+C = {'x':0.0, 'y':0.0, 'z':0.0}
+U = {'x':0.0,'y':0.0,'z':0.0}
+N = {'x':0.0, 'y':0.0, 'z':0.0}
+V = {'x':0.0, 'y':0.0, 'z':0.0}
+V_line = {'x':0.0, 'y':0.0, 'z':0.0}
+d = 0.0
+hx = 0.0
+hy = 0.0
+resx = 0.0
+resy = 0.0
 
-def get_input():
+def Camera():
 
 	data = open("input/camera.txt","r")
 	inputs = data.readlines()
-	C = {'x':0.0, 'y':0.0, 'z':0.0}
+	global C,U,N,V,V_line
 
 	C_in = inputs[0].replace('\n','').replace('\r','')
 	N_in = inputs[1].replace('\n','').replace('\r','')
@@ -20,33 +31,33 @@ def get_input():
 	hx = inputs[3].split(' ')[1]
 	hy = inputs[3].split(' ')[2]
 
-	retorno = {'C_in':C,'N_in':N_in,'V_in':V_in,'d':d,'hx':hx,'hy':hy}
-
-	return retorno
-
-def set_view():
-
-	user_input = get_input()
-	U = {'x':0.0,'y':0.0,'z':0.0}
-	N = {'x':0.0, 'y':0.0, 'z':0.0}
-	V = {'x':0.0, 'y':0.0, 'z':0.0}
-
-	N['x'] = user_input['N_in'].split(' ')[0]
-	N['y'] = user_input['N_in'].split(' ')[1]
-	N['z'] = user_input['N_in'].split(' ')[2]
+	N['x'] = N_in.split(' ')[0]
+	N['y'] = N_in.split(' ')[1]
+	N['z'] = N_in.split(' ')[2]
 
 	N = vector_utils.normalizacao_vetor(N)
 
-	V['x'] = user_input['V_in'].split(' ')[0]
-	V['y'] = user_input['V_in'].split(' ')[1]
-	V['z'] = user_input['V_in'].split(' ')[2]
+	V['x'] = V_in.split(' ')[0]
+	V['y'] = V_in.split(' ')[1]
+	V['z'] = V_in.split(' ')[2]
 
 	V_line = vector_utils.gram_schmidt(V,N)
 	V_line = vector_utils.normalizacao_vetor(V_line)
 
 	U = vector_utils.produto_vetorial(V_line,N)
 
-	matrix_camera = [U,V,N]
+
+def Set_screen_resolution(res_x, res_y):
+	global resx, resy
+
+	resx = res_x
+	resy = res_y
+
+
+def set_view():
+	global U,V_line,N
+
+	matrix_camera = [U,V_line,N]
 
 	matrix_camera[0]['x'] = float(U['x'])
 	matrix_camera[0]['y'] = float(U['y'])
@@ -143,7 +154,7 @@ def get_vertice_triangulo(triangulos, vertices):
 		new_triangulo.append(vetor)
 	return (new_triangulo)
 
-#retorno = get_input()
+#retorno = Camera()
 #UVN = set_view()
 #vertices = get_vertices()
 #triangulos = get_triangulos()

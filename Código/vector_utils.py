@@ -57,7 +57,6 @@ def gram_schmidt(vector_v, vector_n):
 	vector_c = dif_vector(vector_v,vector_aux)
 	return (vector_c)
 
-# Vetor unitário no mesmo sentido do original
 def normalizacao_vetor(vector_v):
     vector_v_normalizado = {'x': 0.0, 'y': 0.0, 'z': 0.0}
     norma_aux_v = math.pow(float(vector_v['x']), 2) + math.pow(float(vector_v['y']), 2) + math.pow(float(vector_v['z']), 2)
